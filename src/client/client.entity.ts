@@ -5,7 +5,7 @@ export class Client {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ length: 50 })
+  @Column({ length: 100 })
   name: string;
 
   @Column('int')
