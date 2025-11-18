@@ -13,6 +13,10 @@ export class ProductService {
     return await this.productRepository.find();
   }
 
+  async find(id: number){
+    return await this.productRepository.findOne({ where: { id: id } });
+  }
+
   async insert(product: Product) {
     return await this.productRepository.insert(product);
   }

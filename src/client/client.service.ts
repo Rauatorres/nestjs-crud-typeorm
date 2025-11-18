@@ -12,6 +12,10 @@ export class ClientService {
     return await this.clientRepository.find();
   }
 
+  async find(clientId: number){
+    return await this.clientRepository.findOne({ where: { id: clientId } });
+  }
+
   async add(client: Client) {
     return await this.clientRepository.insert(client);
   }
