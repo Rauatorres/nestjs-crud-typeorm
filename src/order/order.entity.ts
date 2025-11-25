@@ -1,6 +1,7 @@
 import { Client } from 'src/client/client.entity';
 import { Product } from 'src/product/product.entity';
 import {
+  Column,
   Entity,
   JoinTable,
   ManyToMany,
@@ -19,4 +20,7 @@ export class Order {
   @ManyToMany(() => Product)
   @JoinTable()
   products: Product[];
+
+  @Column({ type: 'date' })
+  expiresAt: string;
 }

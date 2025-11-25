@@ -18,6 +18,11 @@ export default class OrderController {
         return await this.orderService.get(id);
     }
 
+    @Get('/client/:clientid')
+    async getOrdersByClient(@Param('clientid') clientId: number){
+        return await this.orderService.getByClient(clientId);
+    }
+
     @Get(':id/products')
     async getProducts(@Param('id') id: number){
         const order = await this.orderService.get(id)
@@ -26,6 +31,11 @@ export default class OrderController {
 
     @Post('add')
     async add(@Body() newOrder: Order){
+        const date = new Date();
+        date.setDate(date.getDate() + 3);
+
+        newOrder.expiresAt = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
+
         return await this.orderService.insert(newOrder);
     }
 
@@ -33,19 +43,24 @@ export default class OrderController {
     async addProduct(@Param() params: { idorder: number, idproduct: number }) {
         const order = await this.orderService.get(params.idorder);
         const product = await this.productService.find(params.idproduct);
+
         if (order!.products.length < 1){
             order!.products = [];
         }
+
         order!.products.push(product!);
+
         return await this.orderService.save(order!);
     }
     
     @Patch(':idorder/removeproduct/:idproduct')
     async removeProduct(@Param() params: { idorder: number, idproduct: number }){
         const order = await this.orderService.get(params.idorder);
+
         if(order!.products.some(product => product.id == params.idproduct)){
             order!.products = order!.products.filter(product => product.id != params.idproduct);
         }
+        
         return await this.orderService.save(order!);
     }
 

@@ -19,6 +19,12 @@ export class ClientController {
     return await this.clientService.findAll();
   }
 
+  @Get(':id')
+  async findOne(@Param('id') id: number){
+    return await this.clientService.find(id);
+  }
+
+
   @Post('add')
   async add(@Body() client: Client) {
     return await this.clientService.add(client);
